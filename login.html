@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<head>
+<link rel="stylesheet" href="{% static 'webpage/css/style.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script src="{% static 'webpage/js/js.cookie.js' %}"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+<!--<link rel="stylesheet" href="{% static 'webpage/js/jquery.cookie.js' %}">-->
+<!--<link rel="stylesheet" href="{% static 'webpage/js/js.cookie.js' %}">-->
+<!--<script src="{% static 'webpage/js/js.cookie.js' %}"></script>-->
+<!--<link rel="stylesheet" href="webpage/css/style.css">-->
+
+
+<script>
+    $(document).ready(function(){
+       
+//        $("#test").click(function(){
+//        alert("클릭");
+//        }); 
+        
+        
+        //쿠키값 불러오기
+        var c_user_id = Cookies.get("userid");
+        var c_user_pwd = Cookies.get("userpwd");
+//        alert(c_user_id+"///"+ c_user_pwd);
+
+        if( c_user_id && c_user_pwd ) {
+            //쿠키값이 있으면 자동입력
+            $("#userid").val(c_user_id);
+            $("#userpwd").val(c_user_pwd);
+            //쿠키값이 있으면 자동체크
+            $("#autoSave").prop("checked", true);  
+            
+           
+            
+        }    
+            
+           
+
+            
+        $("#autoSave").click(function(){    
+//            alert("클릭");
+            if ($("#autoSave").is(":checked")) {
+//                alert($("#userid"));
+               //쿠키 저장
+                Cookies.set("userid",$("#userid").val(), { expires: 365 });
+                Cookies.set("userpwd",$("#userpwd").val(), { expires: 365 });
+            
+
+            } else {
+                //체크가 해제되었다면 쿠키 삭제.
+            Cookies.remove('userid');
+            Cookies.remove('userpwd');
+            }  
+        });
+    });
+</script>
+    
+    
+    
+
+
+
+
+
+
+
+</head>
+    
+    
+    
+<body background="http://cdn.mysitemyway.com/etc-mysitemyway/webtreats/assets/posts/903/full/tileable-leather-patterns-1.jpg">
+ 
+    
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+
+
+  <form method="POST" action="{% url 'login' %}" class="sign-in-form">
+    {% csrf_token %}
+    {% block content %}
+    <!-- 로그인 되어있는 경우 -->
+    {% if user.is_active %}
+      <h2 style="text-align:center;"> Welcome, {{user.username}} </h2>
+      <a  href="{% url 'logout' %}" ><h2 style="text-align:center;">로그아웃</h2></a>  
+     <!-- 로그인 되어있지 않은 경우 -->
+    {% else %}
+        {% if form.errors %}
+            <!-- 에러발생시 -->
+        <div>
+    <!--        <strong>경고!</strong>    -->
+    <!--        <a href="#" class="alert-link">아이디 또는 암호가 틀렸습니다. 다시 입력해 주십시오.</a>.-->
+            <script>
+            alert("아이디 또는 암호가 틀렸습니다. 다시 입력해 주십시오");
+            </script>
+          </div>
+        </form>  
+        {% endif %}   
+      
+      
+
+<!--<div class="container"> -->
+     <br>      
+     <br>   
+     <br>   
+     <br>   
+
+
+    <div class="col-sm-6 col-sm-offset-3 rounded" id="loginTitle"  style=";border: 3px solid white;">  
+        <h1 class="sub-title " style="text-align:center; color:white; font-size:350%;" >
+            <strong> Login Page</strong> 
+        </h1>
+        <br>  
+        <br>   
+        <br>   
+
+    <!-- <input type="hidden" name="next" value="">
+    {{form.as_p}} >> 기본으로 내장된 로그인 폼을 아래와 같이 커스터마이징 한다-->
+      
+    
+<form id="loginForm" name="loginForm" method="post" action="">
+    {% csrf_token %}
+
+
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input class="form-control" id="userid" maxlength="15" name="{{ form.username.html_name }}" type="text" placeholder="ID" />
+            <label for="{{ form.username.html_name }}"></label>
+
+        </div>
+        <br>
+
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <input class="form-control" id="userpwd" maxlength="120" name="{{ form.password.html_name }}" type="password" placeholder="password" />
+            <label for="{{ form.password.html_name }}"></label>
+
+        </div>
+        
+        
+        
+        <br>
+
+        <button  class="btn btn-lg btn-info btn-block" id="btnLogin">
+        <span class="glyphicon glyphicon-log-in"></span>
+        로그인 
+        </button>
+<!--        <a href="{% url 'index' %}">-->
+        <br>
+<!--        <button type="button" class="btn btn-lg btn-default btn-block">취소</button>-->
+        <input type="hidden" name="next" value="">
+        
+        
+        <br>
+        <div class="[ form-group ]">
+            <input type="checkbox" name="fancy-checkbox-default"  id="autoSave" autocomplete="off" />
+            <div class="[ btn-group ]">
+                <label for="autoSave" class="[ btn btn-default col-sm-4]">
+                    <span class="[ glyphicon glyphicon-ok ]"></span>
+                    <span> </span>
+                </label>
+                <label for="autoSave" class="[ btn col-xs-8 btn-default active ]" >
+                ID 저장하기  　   　　　　
+                </label>
+            </div>
+
+
+        </div>
+   </form>
+        
+        <br>
+        <p class="remove-margin" style="color:white; text-align:center;">
+            * 비밀번호 3회 오류시 사용이 불가능합니다. <br>
+            * 본 어플을 사용하시길 원하는 고객께서는 (주)메아리정보기술(02-2285-2193)로 <br>
+             　사용가능 여부를 문의 바랍니다.<br>
+        </p>
+        <br>
+        
+         <p class="message" style="text-align: center" data-toggle="modal" data-target="#myModal"><a href="#">계정 생성 요청하기</a></p>
+        <!-- Modal -->
+          <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input class="form-control" id="userid" maxlength="15" name="{{ form.username.html_name }}" type="text" placeholder="ID" />
+            <label for="{{ form.username.html_name }}"></label>
+
+        </div>
+        <br>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+     </div> 
+<!--</div>-->
+      
+<!--
+            <button id="test">
+                Click me</button>
+                   
+-->
+                       
+                  
+      
+</body>
+
+
+    {% endif %}
+    {% endblock %}
+      
